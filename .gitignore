@@ -1,0 +1,14 @@
+node_modules
+.next
+.env*
+!.env.example
+coverage
+__pycache__
+*.py[cod]
+.venv
+inference/artifacts/*.pt
+data
+*.zip
+*.tar.gz
+*.pth
+*.pt

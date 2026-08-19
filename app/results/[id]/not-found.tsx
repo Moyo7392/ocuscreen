@@ -1,0 +1,2 @@
+import Link from "next/link";
+export default function NotFound() { return <main className="grid min-h-screen place-items-center px-5"><div className="glass max-w-md rounded-2xl p-8 text-center"><h1 className="text-2xl font-semibold">Result unavailable</h1><p className="mt-3 text-slate-400">Demo records are stored in memory and can reset when the server restarts.</p><Link href="/upload" className="mt-6 inline-flex min-h-11 items-center rounded-lg bg-blue-600 px-4">Start a screening</Link></div></main>; }

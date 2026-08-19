@@ -1,0 +1,13 @@
+import Link from "next/link";
+import { ChevronRight, Clock3, Images } from "lucide-react";
+import { Navbar } from "@/components/Navbar";
+import { resultsStore } from "@/lib/demo-store";
+import { toneFor } from "@/lib/clinical";
+
+export const dynamic = "force-dynamic";
+const badges = { safe: "bg-emerald-500/10 text-emerald-300 border-emerald-500/20", warning: "bg-amber-500/10 text-amber-300 border-amber-500/20", danger: "bg-red-500/10 text-red-300 border-red-500/20" };
+
+export default function HistoryPage() {
+  const results = [...resultsStore.values()].filter((r) => r.user_id === (process.env.DEMO_USER_ID || "demo-clinician")).sort((a,b) => b.timestamp.localeCompare(a.timestamp));
+  return <><Navbar/><main className="mx-auto max-w-6xl px-5 py-12"><p className="font-mono text-[11px] uppercase tracking-[.24em] text-blue-400">Screening archive</p><h1 className="mt-3 text-4xl font-semibold tracking-tight">History</h1><p className="mt-3 text-slate-500">Newest screenings appear first. Records are scoped to the signed-in user.</p>{results.length ? <div className="mt-9 grid gap-4 md:grid-cols-2">{results.map((result) => <Link key={result.id} href={`/results/${result.id}`} className="glass group flex min-h-32 overflow-hidden rounded-xl transition hover:-translate-y-0.5 hover:border-slate-600 hover:shadow-instrument"><div className="w-32 shrink-0 bg-black/30">{/* eslint-disable-next-line @next/next/no-img-element */}<img src={result.image_url} alt="Retinal screening thumbnail" className="h-full w-full object-cover"/></div><div className="flex min-w-0 flex-1 items-center justify-between gap-4 p-5"><div><span className={`inline-flex rounded-md border px-2 py-1 font-mono text-xs ${badges[toneFor(result.grade)]}`}>Grade {result.grade}</span><p className="mt-3 truncate font-medium text-slate-100">{result.grade_label}</p><p className="mt-1 flex items-center gap-1.5 text-xs text-slate-500"><Clock3 size={13}/>{new Date(result.timestamp).toLocaleString()}</p><p className="mt-2 font-mono text-xs text-slate-400">{Math.round(result.confidence * 100)}% confidence</p></div><ChevronRight className="shrink-0 text-slate-600 transition group-hover:translate-x-1 group-hover:text-blue-400"/></div></Link>)}</div> : <div className="mt-10 grid min-h-80 place-items-center rounded-2xl border border-dashed border-slate-700 bg-surface/30 text-center"><div><Images className="mx-auto text-slate-600" size={36}/><h2 className="mt-4 font-medium">No screenings yet</h2><p className="mt-2 text-sm text-slate-500">Completed screenings will appear here.</p><Link href="/upload" className="mt-5 inline-flex min-h-11 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium">Analyze an image</Link></div></div>}</main></>;
+}

@@ -1,0 +1,3 @@
+import { resultsStore } from "@/lib/demo-store";
+const decode = (uri: string) => { const [meta, data] = uri.split(","); return { type: meta.match(/data:([^;]+)/)?.[1] || "image/png", bytes: Buffer.from(data, "base64") }; };
+export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) { const record = resultsStore.get((await params).id) as (ReturnType<typeof resultsStore.get> & { heatmap_data?: string }); if (!record?.heatmap_data) return new Response(null, { status: 404 }); const value = decode(record.heatmap_data); return new Response(value.bytes, { headers: { "Content-Type": value.type, "Cache-Control": "private, max-age=3600" } }); }
