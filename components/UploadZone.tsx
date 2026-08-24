@@ -42,6 +42,7 @@ export function UploadZone() {
         onUploadProgress: ({ loaded, total }) => setProgress(Math.min(70, Math.round((loaded / (total || file.size)) * 70))),
       });
       setProgress(100);
+      sessionStorage.setItem(`ocuscreen:result:${response.data.id}`, JSON.stringify(response.data));
       router.push(`/results/${response.data.id}`);
     } catch (caught) {
       const response = (caught as AxiosError<{ reason?: string }>).response;

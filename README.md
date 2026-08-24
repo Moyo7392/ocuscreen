@@ -1,6 +1,10 @@
 # OcuScreen
 
+[![CI](https://github.com/Moyo7392/ocuscreen/actions/workflows/ci.yml/badge.svg)](https://github.com/Moyo7392/ocuscreen/actions/workflows/ci.yml)
+
 OcuScreen is an AI-assisted diabetic retinopathy screening and triage demo for the UT Arlington CSE 4316 Retinauts team. It returns a five-level severity grade, model confidence, Grad-CAM visualization, and referral advisory. It is explicitly decision support—not a diagnostic device.
+
+**[Open the hosted demonstration](https://ocuscreen.vercel.app)** — use only synthetic or non-identifying images. Results are simulated and visibly labeled as demo output.
 
 ## Run the working demo
 
@@ -12,7 +16,7 @@ npm run dev
 
 Open `http://localhost:3000`, select **Sign in as Demo User**, then upload a JPEG or PNG. `DEMO_MODE=true` runs a deterministic, non-clinical stub so the complete upload/result/history/PDF workflow can be demonstrated without a multi-gigabyte model artifact. The stub's model version is visibly labeled `demo-1.0.0`; its heatmap is only a presentation placeholder.
 
-Records and the append-only audit stream use process memory in demo mode and reset when the Next.js process or serverless instance restarts. This is intentional for a zero-configuration course demo. Production deployment should replace `lib/demo-store.ts` with Firestore or Supabase repositories and replace `demoUserId()` with server-side Firebase/Supabase token verification. The API already enforces ownership when reading records.
+Records and the append-only audit stream use process memory in demo mode and reset when the Next.js process or serverless instance restarts. The most recently created result is also retained in the current browser session so the upload-to-result demonstration remains reliable on serverless hosting. This is intentional for a zero-configuration course demo. Production deployment should replace `lib/demo-store.ts` with Firestore or Supabase repositories and replace `demoUserId()` with server-side Firebase/Supabase token verification. The API already enforces ownership when reading records.
 
 ## Run the inference service
 
@@ -56,3 +60,21 @@ python3 -m compileall -q inference training
 ```
 
 The UI is keyboard operable, responsive, uses text alongside severity colors, and renders the mandatory non-diagnostic disclaimer on every result and in every PDF export.
+
+## Evidence and limitations
+
+| Capability | Public evidence | Current limitation |
+| --- | --- | --- |
+| Product workflow | Runnable deterministic demo, route handlers, history, and PDF export | Demo records use process memory and reset on restart |
+| Inference | FastAPI service, preprocessing, quality gates, EfficientNet-B0 loader, and Grad-CAM | Trained weights are intentionally excluded |
+| Training | Reproducible configuration and APTOS 2019 training pipeline | No accuracy or QWK claim is made without a versioned evaluation artifact |
+| Safety | Quality rejection, ownership checks, confidence display, and repeated disclaimer | Not independently validated or cleared for clinical use |
+
+The next evidence milestone is a versioned model card containing held-out metrics, a confusion matrix, dataset provenance, and known failure modes. The required format is documented in [docs/model-card-template.md](docs/model-card-template.md).
+
+## Roadmap
+
+- Replace the in-memory demo repositories with persistent storage and verified authentication
+- Publish a safe hosted demo using only synthetic or explicitly licensed sample images
+- Add route-level and browser-level tests around upload, history, result access, and PDF export
+- Publish evaluation artifacts only after reproducing them from a versioned checkpoint

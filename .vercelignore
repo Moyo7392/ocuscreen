@@ -1,0 +1,10 @@
+.git/
+.next/
+.vercel/
+node_modules/
+.venv/
+data/
+*.zip
+*.tar.gz
+*.pth
+*.pt
