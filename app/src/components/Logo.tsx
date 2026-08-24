@@ -1,0 +1,1 @@
+export function Logo({large=false}:{large?:boolean}) { return <span className="inline-flex items-center font-serif text-teal"><span className={large?"text-5xl sm:text-6xl":"text-[23px]"}>OcuScreen</span><i className={`${large?"ml-2 h-2.5 w-2.5":"ml-1.5 h-1.5 w-1.5"} self-start rounded-full bg-gold`}/></span>; }

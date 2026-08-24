@@ -1,0 +1,5 @@
+export function ImageMetadata({ width, height, bytes, timestamp, processingTime, quality }: { width: number; height: number; bytes: number; timestamp: string; processingTime: number; quality: string }) {
+  const metadata = [["Dimensions", `${width} × ${height} px`], ["File size", formatBytes(bytes)], ["Analyzed", new Date(timestamp).toLocaleString()], ["Processing", `${processingTime.toLocaleString()} ms`]];
+  return <section className="instrument-card grid gap-px overflow-hidden bg-white/[0.06] sm:grid-cols-2 xl:grid-cols-5">{metadata.map(([label,value]) => <div key={label} className="bg-panel px-6 py-5"><p className="text-[10px] uppercase tracking-[.14em] text-quiet">{label}</p><p className="mt-2 font-mono text-[11px] text-body">{value}</p></div>)}<div className="bg-panel px-6 py-5"><p className="text-[10px] uppercase tracking-[.14em] text-quiet">Quality check</p><p className="mt-2 text-[11px] font-semibold text-safe"><span aria-hidden="true">✓</span> {quality}</p></div></section>;
+}
+function formatBytes(bytes: number) { return bytes >= 1048576 ? `${(bytes / 1048576).toFixed(2)} MB` : `${Math.round(bytes / 1024)} KB`; }

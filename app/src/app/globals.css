@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+html { min-width: 320px; scroll-behavior: smooth; background: #fafaf7; }
+body { min-height:100vh; margin:0; background:#fafaf7; color:#1a1a1a; font-family:Inter,ui-sans-serif,system-ui,sans-serif; font-size:16px; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+button,a { -webkit-tap-highlight-color:transparent; }
+button { font:inherit; }
+button:focus-visible,a:focus-visible,input:focus-visible { outline:2px solid #2e8b83; outline-offset:3px; }
+
+@layer components {
+  .clinical-card { @apply rounded-2xl border border-taupe bg-surface shadow-clinical; }
+  .report-label { @apply text-[11px] font-semibold uppercase tracking-[.18em] text-teal; }
+  .serif-title { @apply font-serif font-normal tracking-[-.015em] text-ink; }
+  .teal-button { @apply inline-flex min-h-12 items-center justify-center rounded-full bg-teal px-7 text-sm font-semibold text-white shadow-[0_9px_24px_rgba(27,77,110,.18)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#153f5b] hover:shadow-[0_12px_30px_rgba(27,77,110,.24)] disabled:cursor-not-allowed disabled:opacity-60; }
+  .ghost-button { @apply inline-flex min-h-12 items-center justify-center rounded-full border border-teal/35 bg-white px-6 text-sm font-semibold text-teal transition duration-200 hover:-translate-y-0.5 hover:border-teal hover:bg-wash; }
+  .reveal { opacity:0; transform:translateY(30px); transition:opacity 600ms ease-out,transform 600ms cubic-bezier(.22,1,.36,1); }
+  .reveal-left { opacity:0; transform:translateX(-40px); transition:opacity 500ms ease-out,transform 500ms cubic-bezier(.22,1,.36,1); }
+  .reveal-right { opacity:0; transform:translateX(40px); transition:opacity 500ms ease-out,transform 500ms cubic-bezier(.22,1,.36,1); }
+  .animate-in { opacity:1; transform:translate(0,0); }
+}
+
+@keyframes page-in { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+@keyframes bar-fill { from{transform:scaleX(0)} to{transform:scaleX(1)} }
+@keyframes pointer-slide { from{left:0;opacity:0} to{opacity:1} }
+@keyframes hotspot-once { 0%{transform:translate(-50%,-50%) scale(.45);opacity:0} 55%{transform:translate(-50%,-50%) scale(1.25);opacity:1} 100%{transform:translate(-50%,-50%) scale(1);opacity:1} }
+@keyframes dot-pulse { 0%,100%{opacity:.25;transform:translateY(0)} 50%{opacity:1;transform:translateY(-2px)} }
+@keyframes progress-sweep { 0%{transform:translateX(-100%)} 50%{transform:translateX(30%)} 100%{transform:translateX(100%)} }
+.page-in { animation:page-in 500ms cubic-bezier(.22,1,.36,1) both; }
+.probability-fill { animation:bar-fill 800ms cubic-bezier(.22,1,.36,1) both; transform-origin:left; }
+.severity-pointer { animation:pointer-slide 700ms cubic-bezier(.34,1.56,.64,1) both; }
+.hotspot-marker { animation:hotspot-once 900ms cubic-bezier(.22,1,.36,1) both; }
+.analysis-progress { animation:progress-sweep 1.4s ease-in-out infinite; }
+.loading-dot { animation:dot-pulse 900ms ease-in-out infinite; }
+
+@media (max-width:767px) {
+  .mobile-severity { grid-template-columns:32px 1fr !important; }
+}
+@media (prefers-reduced-motion:reduce) {
+  *,*::before,*::after { scroll-behavior:auto!important; animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; }
+  .reveal,.reveal-left,.reveal-right { opacity:1; transform:none; }
+}
