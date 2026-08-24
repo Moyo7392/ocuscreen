@@ -62,7 +62,7 @@ export function UploadZone() {
       ) : (
         <div className="glass overflow-hidden rounded-xl">
           <div className="relative flex min-h-[390px] items-center justify-center bg-black/30 p-5">
-            {/* eslint-disable-next-line @next/next/no-img-element */}<img src={preview!} alt="Selected retinal fundus photograph" className="max-h-[410px] max-w-full rounded-xl object-contain" />
+            <img src={preview!} alt="Selected retinal fundus photograph" className="max-h-[410px] max-w-full rounded-xl object-contain" />
             {!processing && <button onClick={() => { setFile(null); setPreview(null); }} aria-label="Remove selected image" className="absolute right-4 top-4 grid h-11 w-11 place-items-center rounded-full bg-black/70 text-slate-300 hover:text-white"><X size={18}/></button>}
           </div>
           <div className="flex flex-col gap-5 border-t border-line p-5 sm:flex-row sm:items-center sm:justify-between">
